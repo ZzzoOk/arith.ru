@@ -1,0 +1,23 @@
+#leaderboard {
+    border: solid 1px;
+    border-collapse: collapse;
+}
+
+#leaderboard caption {
+    font-size: 1.5em;
+    padding: 10px;
+}
+
+#leaderboard thead th {
+    border: solid 1px;
+    padding: 10px;
+}
+
+#leaderboard tbody td {
+    border: solid 1px;
+    padding: 10px;
+}
+
+#leaderboard .last {
+    background-color: gold;
+}
