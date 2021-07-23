@@ -11,14 +11,10 @@ let results;
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: sessionStorage.getItem('username') ?? 'anon',
-            maxCount: sessionStorage.getItem('maxCount') ?? 5,
-            results: JSON.parse(sessionStorage.getItem('results' + sessionStorage.getItem('maxCount') ?? 5)) ?? []
-        };
 
-        maxCount = this.state.maxCount;
-        results = this.state.results;
+        let username = sessionStorage.getItem('username') ?? 'anon';
+        maxCount = sessionStorage.getItem('maxCount') ?? 5;
+        results = JSON.parse(sessionStorage.getItem('results' + maxCount)) ?? [];
     }
 
     getRandomInt = () => {
@@ -48,9 +44,9 @@ class Main extends React.Component {
     correct = () => {
         if (this.last()) {
             results.push(((new Date) - startTime) / 1000);
-            this.setState({ results: results });
             sessionStorage.setItem('results' + maxCount, JSON.stringify(results));
             this.props.history.push('/stats');
+            return;
         }
 
         startTime = startTime ?? new Date();
@@ -66,8 +62,8 @@ class Main extends React.Component {
     }
 
     handleButtonClick = (e) => {
-        answer += e.target.innerText;
-
+        answer += e.target?.innerText ?? e;
+debugger
         let result = this.getResult();
         if (result.startsWith(answer) && result == answer) {
             this.correct();
@@ -88,9 +84,24 @@ class Main extends React.Component {
         document.getElementById(styles.counter).innerText = `0/${maxCount}`;
     }
 
+    handleKeydown = (e) => {
+        if (isFinite(e.key) && e.keyCode != 32) {
+            this.handleButtonClick(e.key);
+        }
+
+        if (e.keyCode == 35) {
+            this.init();
+        }
+    }
+
     componentDidMount() {
         task = document.getElementById(styles.task);
+        document.addEventListener('keydown', this.handleKeydown);
         this.init();
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeydown);
     }
 
     render() {

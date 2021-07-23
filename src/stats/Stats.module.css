@@ -21,3 +21,13 @@
 #leaderboard .last {
     background-color: gold;
 }
+
+#clear {
+    display: inline-block;
+    background-color: #434343;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    line-height: 40px;
+    width: 100px;
+}

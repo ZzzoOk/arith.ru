@@ -9,6 +9,7 @@ label {
 }
 
 input {
+    width: 120px;
     padding: 10px 15px;
     margin: auto;
     display: block;

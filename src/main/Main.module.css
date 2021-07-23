@@ -11,11 +11,10 @@ table {
   transition: all 0.2s;
 }
 
-span {
+#main span {
   display: inline-block;
   font-size: 3em;
   background-color: #434343;
-  border: 1px solid dimgray;
   color: white;
   cursor: pointer;
   line-height: 100px;
@@ -23,7 +22,7 @@ span {
   margin: 0;
 }
 
-#btn0 {
+#main #btn0 {
   width: 250px;
 }
 

@@ -13,8 +13,13 @@ class Settings extends React.Component {
     }
 
     handleInput = (e) => {
-        this.setState({ maxCount: e.target.value });
-        sessionStorage.setItem('maxCount', e.target.value);
+        let val = e.target.value;
+
+        val = val < 1 ? 1 : val;
+        val = val > 100 ? 100 : val;
+
+        this.setState({ maxCount: val });
+        sessionStorage.setItem('maxCount', val);
     }
 
     handleChange = (e) => {
@@ -32,7 +37,7 @@ class Settings extends React.Component {
                     <label htmlFor='username'>Username: </label>
                     <input id={styles.username} type='text' name='username' onChange={this.handleChange} value={this.state.username} /><br />
                     <label htmlFor='count'>Count: </label>
-                    <input id={styles.count} type='number' name='count' onInput={this.handleInput} value={this.state.maxCount} />
+                    <input id={styles.count} type='number' name='count' onInput={this.handleInput} value={this.state.maxCount} min='1' max='100' />
                 </main>
                 <footer>
                 </footer>

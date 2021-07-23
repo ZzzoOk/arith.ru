@@ -12,20 +12,21 @@ const Result = (props) => {
     )
 }
 
+let username;
+let maxCount;
+let results;
 class Stats extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: sessionStorage.getItem('username') ?? 'anon',
-            maxCount: sessionStorage.getItem('maxCount') ?? 5,
-            results: JSON.parse(sessionStorage.getItem('results' + sessionStorage.getItem('maxCount') ?? 5)) ?? []
-        };
+
+        username = sessionStorage.getItem('username') ?? 'anon';
+        maxCount = sessionStorage.getItem('maxCount') ?? 5;
+        results = JSON.parse(sessionStorage.getItem('results' + maxCount)) ?? [];
     }
 
     render() {
-        let results = [...this.state.results];
-        let currentResult = results[results.length - 1];
-        results = results.sort((a, b) => { return a - b; }).map(r => <Result username={this.state.username} result={r} last={r == currentResult} />);
+        let lastResult = results[results.length - 1];
+        let rows = [...results].sort((a, b) => { return a - b; }).map(r => <Result username={username} result={r} last={r == lastResult} />);
         return (
             <>
                 <header>
@@ -42,10 +43,11 @@ class Stats extends React.Component {
                         </thead>
                         <tbody>
                             {
-                                results
+                                rows
                             }
                         </tbody>
                     </table>
+                    <span id={styles.clear} onClick={() => { sessionStorage.removeItem('results' + maxCount); results = []; this.forceUpdate(); }}>Clear</span>
                 </main>
                 <footer>
                 </footer>
