@@ -45,7 +45,7 @@ class Main extends React.Component {
         if (this.last()) {
             results.push(((new Date) - startTime) / 1000);
             sessionStorage.setItem('results' + maxCount, JSON.stringify(results));
-            this.props.history.push('/stats');
+            this.props.history.push('/leaderboard');
             return;
         }
 
@@ -63,7 +63,7 @@ class Main extends React.Component {
 
     handleButtonClick = (e) => {
         answer += e.target?.innerText ?? e;
-debugger
+        debugger
         let result = this.getResult();
         if (result.startsWith(answer) && result == answer) {
             this.correct();

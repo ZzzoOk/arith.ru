@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styles from './Stats.module.css';
+import styles from './Leaderboard.module.css';
 import Menu from '../menu/Menu'
 
 const Result = (props) => {
@@ -15,7 +15,7 @@ const Result = (props) => {
 let username;
 let maxCount;
 let results;
-class Stats extends React.Component {
+class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -56,4 +56,4 @@ class Stats extends React.Component {
     }
 }
 
-export default Stats;
+export default Leaderboard;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styles from './Settings.module.css';
+import styles from './Profile.module.css';
 import Menu from '../menu/Menu'
 
-class Settings extends React.Component {
+class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,4 +46,4 @@ class Settings extends React.Component {
     }
 }
 
-export default Settings;
+export default Profile;
