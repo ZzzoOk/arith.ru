@@ -20,14 +20,9 @@ function App() {
     <Router>
       <Route exact path='/' component={Main} />
       <Route path='/leaderboard' component={Leaderboard} />
-      {isAuth ?
-        <Route path='/profile' component={Profile} />
-        :
-        <Switch>
-          <Route path='/login' component={LogIn} />
-          <Route path='/signup' component={SignUp} />
-        </Switch>
-      }
+      <Route path='/profile' component={Profile} />
+      <Route path='/login' component={LogIn} />
+      <Route path='/signup' component={SignUp} />
     </Router>
   );
 }

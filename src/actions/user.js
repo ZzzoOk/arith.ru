@@ -3,7 +3,7 @@ import { setUser } from "../reducers/userReducer";
 
 export const signUp = async (username, email, password) => {
     try {
-        const response = await axios.post('http://api.arith.ru/signup', {
+        const response = await axios.post('https://api.arith.ru/signup', {
             username,
             email,
             password
@@ -17,7 +17,7 @@ export const signUp = async (username, email, password) => {
 export const logIn = (username, password) => {
     return async dispatch => {
         try {
-            const response = await axios.post('http://api.arith.ru/login', {
+            const response = await axios.post('https://api.arith.ru/login', {
                 username,
                 password
             });
@@ -33,7 +33,7 @@ export const logIn = (username, password) => {
 export const auth = () => {
     return async dispatch => {
         try {
-            const response = await axios.get('http://api.arith.ru/auth',
+            const response = await axios.get('https://api.arith.ru/auth',
                 {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
             );
             dispatch(setUser(response.data.username));
