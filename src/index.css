@@ -3,3 +3,45 @@ body {
   text-align: center;
   margin: 0;
 }
+
+input {
+  width: 150px;
+  padding: 10px 15px;
+  margin: 10px auto;
+  display: block;
+}
+
+.button {
+  display: inline-block;
+  background-color: #434343;
+  color: white;
+  cursor: pointer;
+  margin: 10px auto;
+  line-height: 40px;
+  width: 100px;
+}
+
+a {
+  color: black;
+}
+
+.links {
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.errorInput {
+  border: 1px solid red;
+}
+
+.errorAlert {
+  font-size: 0.8em;
+  color: red;
+}
+
+.recharts-wrapper {
+  margin: auto;
+}

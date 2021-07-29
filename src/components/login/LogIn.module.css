@@ -1,0 +1,9 @@
+#main {
+    margin: auto;
+    width: fit-content;
+}
+
+.links {
+    display: block;
+    margin-top: 15px;
+}
