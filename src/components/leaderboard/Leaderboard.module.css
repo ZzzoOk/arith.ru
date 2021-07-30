@@ -13,6 +13,6 @@
     padding: 10px;
 }
 
-#leaderboard .last {
+.currentUser {
     background-color: gold;
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Leaderboard.module.css';
 import Menu from '../menu/Menu'
-import { leaderboard } from '../../actions/user';
+import { getLeaders } from '../../actions/user';
 
 const Result = (props) => {
     const username = useSelector(state => state.user.username);
@@ -17,14 +17,12 @@ const Result = (props) => {
         year: 'numeric', month: 'numeric', day: 'numeric',
     };
 
-    const results = props.results;
-    const last = results[results.length - 1].date;
     const rows =
-        [...results]
+        props.results
             .sort((a, b) => a.result - b.result)
             .map(r =>
-                <tr className={r.date === last ? styles.last : null}>
-                    <td>{username}</td>
+                <tr className={r.username == username ? styles.currentUser : null}>
+                    <td>{r.username}</td>
                     <td>{new Intl.DateTimeFormat('default', options).format(new Date(r.date))}</td>
                     <td>{r.result}</td>
                 </tr>
@@ -34,18 +32,15 @@ const Result = (props) => {
 }
 
 const Leaderboard = () => {
-    useEffect(() => {
-        leaderboard();
-    })
-    
-    //const results = useSelector(state => state.leaderboard.leaders);
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) ?? [];
     const maxCount = localStorage.getItem('maxCount') ?? 5;
-    //const [results, setResults] = useState(JSON.parse(localStorage.getItem('results' + maxCount)));
+    const dispatch = useDispatch();
 
-    const clear = () => {
-        //setResults();
-        localStorage.removeItem('results' + maxCount);
-    }
+    useEffect(() => {
+        if (leaderboard.length < 1 || (new Date) - (new Date(leaderboard.date)) > 5 * 60 * 1000) {
+            dispatch(getLeaders());
+        }
+    });
 
     return (
         <>
@@ -63,10 +58,9 @@ const Leaderboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <Result results={leaderboard.leaders} />
                     </tbody>
                 </table>
-                <span className='button' onClick={clear}>Clear</span>
             </main>
             <footer>
             </footer>
