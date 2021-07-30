@@ -1,11 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './Leaderboard.module.css';
 import Menu from '../menu/Menu'
+import { leaderboard } from '../../actions/user';
 
 const Result = (props) => {
-    const username = useSelector(state => state.user.user);
+    const username = useSelector(state => state.user.username);
 
     if (!props.results) {
         return null;
@@ -33,11 +34,16 @@ const Result = (props) => {
 }
 
 const Leaderboard = () => {
+    useEffect(() => {
+        leaderboard();
+    })
+    
+    //const results = useSelector(state => state.leaderboard.leaders);
     const maxCount = localStorage.getItem('maxCount') ?? 5;
-    const [results, setResults] = useState(JSON.parse(localStorage.getItem('results' + maxCount)));
+    //const [results, setResults] = useState(JSON.parse(localStorage.getItem('results' + maxCount)));
 
     const clear = () => {
-        setResults();
+        //setResults();
         localStorage.removeItem('results' + maxCount);
     }
 
@@ -57,7 +63,7 @@ const Leaderboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <Result results={results} />
+                        
                     </tbody>
                 </table>
                 <span className='button' onClick={clear}>Clear</span>

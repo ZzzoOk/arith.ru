@@ -2,23 +2,21 @@ const SET_USER = 'SET_USER';
 const LOGOUT = 'LOGOUT';
 
 const defaultState = {
-    user: 'anon',
+    username: 'anon',
     isAuth: false
 }
 
 export default function userReducer(state = defaultState, action) {
-    switch(action.type) {
+    switch (action.type) {
         case SET_USER:
             return {
-                ...state,
-                user: action.payload,
+                username: action.payload,
                 isAuth: true
             }
         case LOGOUT:
             localStorage.removeItem('token');
             return {
-                ...state,
-                user: 'anon',
+                username: 'anon',
                 isAuth: false
             }
         default:
@@ -26,5 +24,5 @@ export default function userReducer(state = defaultState, action) {
     }
 }
 
-export const setUser = user => ({type: SET_USER, payload: user});
-export const logout = () => ({type: LOGOUT});
+export const setUser = user => ({ type: SET_USER, payload: user });
+export const logout = () => ({ type: LOGOUT });

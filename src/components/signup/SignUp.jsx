@@ -27,7 +27,7 @@ const SignUp = () => {
                 <span className='errorAlert hidden'>Another account is using this email</span>
                 <Input value={password} setValue={setPassword} type='password' placeholder='Password' />
                 <span className='errorAlert hidden'>Use from 6 to 15 characters</span>
-                <div><span className='button' onClick={() => { signUp(username, email, password); history.push('/profile'); }}>Sign Up</span></div>
+                <div><span className='button' onClick={() => { signUp(username, email, password); history.push('/login'); }}>Sign Up</span></div>
             </main>
             <footer>
                 <div className='links'><NavLink to='/login'>Log In</NavLink></div>

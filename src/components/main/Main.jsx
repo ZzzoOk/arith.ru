@@ -1,9 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styles from './Main.module.css';
 import Menu from '../menu/Menu'
 import Modal from 'react-modal';
+import { setResult } from '../../actions/user';
 
 const Main = () => {
     let task;
@@ -43,6 +45,7 @@ const Main = () => {
             results.push(result);
             localStorage.setItem('results' + maxCount, JSON.stringify(results));
             setIsOpen(true);
+            setResult(result.date, result.result);
             return;
         }
 

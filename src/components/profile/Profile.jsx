@@ -11,7 +11,7 @@ import {
 import Input from '../../utils/Input';
 
 const Profile = () => {
-    const username = useSelector(state => state.user.user);
+    const username = useSelector(state => state.user.username);
     const [maxCount, setMaxCount] = useState(localStorage.getItem('maxCount') ?? 5);
     const data = JSON.parse(localStorage.getItem('results' + maxCount));
 
@@ -25,6 +25,10 @@ const Profile = () => {
     }
 
     const formatDate = (tickItem) => {
+        if (!(tickItem instanceof Date)) {
+            return null;
+        }
+
         const options = {
             hour: 'numeric', minute: 'numeric', second: 'numeric',
             year: 'numeric', month: 'numeric', day: 'numeric',
