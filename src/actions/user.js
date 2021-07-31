@@ -45,27 +45,28 @@ export const auth = () => {
     }
 }
 
-export const setResult = async (date, result, maxCount) => {
+export const setResult = async (date, result, questionCount) => {
     try {
         const response = await axios.post('https://api.arith.ru/set', {
             date,
             result,
-            maxCount
+            questionCount
         }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
     } catch (e) {
         console.log(e);
     }
 }
 
-export const getLeaders = (maxCount) => {
+export const getLeaders = (questionCount) => {
     return async dispatch => {
         try {
-            const response = await axios.get('https://api.arith.ru/leaders',
-                { maxCount },
-                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+            const response = await axios.get('https://api.arith.ru/leaders', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                params: { questionCount }
+            }
             );
             dispatch(setLeaders(response.data));
-            localStorage.setItem('leaderboard' + maxCount, JSON.stringify({ leaders: response.data, date: new Date }));
+            localStorage.setItem('leaderboard' + questionCount, JSON.stringify({ leaders: response.data, date: new Date }));
         } catch (e) {
             console.log(e);
         }

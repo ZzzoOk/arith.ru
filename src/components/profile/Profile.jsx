@@ -12,20 +12,11 @@ import Input from '../../utils/Input';
 
 const Profile = () => {
     const username = useSelector(state => state.user.username);
-    const [maxCount, setMaxCount] = useState(localStorage.getItem('maxCount') ?? 5);
-    const data = JSON.parse(localStorage.getItem('results' + maxCount));
-
-    const handleInput = (e) => {
-        let val = e.target.value;
-
-        val = val < 1 ? 1 : val;
-        val = val > 100 ? 100 : val;
-
-        localStorage.setItem('maxCount', val);
-    }
+    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 5);
+    const data = JSON.parse(localStorage.getItem('results' + questionCount));
 
     const formatDate = (tickItem) => {
-        if (!(tickItem instanceof Date)) {
+        if (tickItem === 'auto') {
             return null;
         }
 
@@ -37,6 +28,21 @@ const Profile = () => {
         return new Intl.DateTimeFormat('default', options).format(new Date(tickItem));
     }
 
+    const handleClick = (count) => {
+        if (count > 0 && count < 101) {
+            setQuestionCount(count);
+        }
+    }
+
+    const handleInput = (e) => {
+        let val = e.target.value;
+
+        val = val < 1 ? 1 : val;
+        val = val > 100 ? 100 : val;
+
+        localStorage.setItem('questionCount', val);
+    }
+
     return (
         <>
             <header>
@@ -44,15 +50,14 @@ const Profile = () => {
             </header>
             <main id={styles.main}>
                 <h2>{username}</h2>
-                <label htmlFor='count'>Number of sums:</label>
-                <Input id={styles.count} type='number' name='count' value={maxCount} setValue={setMaxCount} onInput={handleInput} min='1' max='100' />
-                <h3>Your stats:</h3>
+                <label htmlFor='count'><h3>Questions:</h3></label>
+                <Input id={styles.count} type='number' name='count' value={questionCount} setValue={setQuestionCount} onInput={handleInput} min='1' max='100' />
                 <LineChart
                     width={800} height={400} data={data}
                     margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
                 >
                     <CartesianGrid vertical={false} />
-                    <XAxis dataKey="date" tickFormatter={formatDate} dy={15}/>
+                    <XAxis dataKey="date" tickFormatter={formatDate} dy={15} />
                     <YAxis domain={['auto', 'auto']} />
                     <Tooltip
                         itemStyle={{
@@ -64,6 +69,9 @@ const Profile = () => {
                     />
                     <Line dataKey="result" />
                 </LineChart>
+                <h4>Your stats</h4>
+                <span className='button' onClick={() => handleClick(+questionCount - 1)}>Prev</span>|
+                <span className='button' onClick={() => handleClick(+questionCount + 1)}>Next</span>
             </main>
             <footer>
             </footer>

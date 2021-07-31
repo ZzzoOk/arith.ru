@@ -5,10 +5,10 @@ import styles from './Leaderboard.module.css';
 import Menu from '../menu/Menu'
 import { getLeaders } from '../../actions/user';
 
-const Result = (props) => {
+const Leader = (props) => {
     const username = useSelector(state => state.user.username);
 
-    if (!props.results) {
+    if (!props.leaders) {
         return null;
     }
 
@@ -18,7 +18,7 @@ const Result = (props) => {
     };
 
     const rows =
-        props.results
+        props.leaders
             .sort((a, b) => a.result - b.result)
             .map(r =>
                 <tr className={r.username == username ? styles.currentUser : null}>
@@ -32,19 +32,19 @@ const Result = (props) => {
 }
 
 const Leaderboard = () => {
-    const [maxCount, setMaxCount] = useState(JSON.parse(localStorage.getItem('maxCount') ?? 5));
-    const [leaderboard, setLeaderboard] = useState(JSON.parse(localStorage.getItem('leaderboard' + maxCount)) ?? []);
+    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 5);
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard' + questionCount)) ?? [];
     const dispatch = useDispatch();
 
     const handleClick = (count) => {
-        setMaxCount(count);
-        dispatch(getLeaders(count));
-        setLeaderboard();
+        if (count > 0 && count < 101) {
+            setQuestionCount(count);
+        }
     }
 
     useEffect(() => {
         if (leaderboard.length < 1 || (new Date) - (new Date(leaderboard.date)) > 5 * 60 * 1000) {
-            dispatch(getLeaders(maxCount));
+            dispatch(getLeaders(questionCount));
         }
     });
 
@@ -57,7 +57,7 @@ const Leaderboard = () => {
                 <table id={styles.leaderboard}>
                     <caption>
                         <h2>Leaderboard</h2>
-                        <h3>Sums: {maxCount}</h3>
+                        <h3>Questions: {questionCount}</h3>
                     </caption>
                     <thead>
                         <tr>
@@ -67,11 +67,11 @@ const Leaderboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <Result results={leaderboard.leaders} />
+                        <Leader leaders={leaderboard.leaders} />
                     </tbody>
                 </table>
-                <span className='button' onClick={() => handleClick(maxCount - 1)}>prev</span>|
-                <span className='button' onClick={() => handleClick(maxCount + 1)}>next</span>
+                <span className='button' onClick={() => handleClick(+questionCount - 1)}>Prev</span>|
+                <span className='button' onClick={() => handleClick(+questionCount + 1)}>Next</span>
             </main>
             <footer>
             </footer>

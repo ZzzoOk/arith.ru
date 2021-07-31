@@ -1,4 +1,5 @@
 body {
+  user-select: none;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   margin: 0;

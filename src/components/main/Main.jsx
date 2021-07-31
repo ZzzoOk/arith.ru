@@ -7,13 +7,13 @@ import Menu from '../menu/Menu'
 
 const Main = () => {
     let answer;
-    let startTime;
     const [task, setTask] = useState('1 + 1');
     const [counter, setCounter] = useState(0);
+    const [startTime, setStartTime] = useState();
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [incorrectClass, setIncorrectClass] = useState('');
-    const maxCount = localStorage.getItem('maxCount') ?? 5;
-    const results = JSON.parse(localStorage.getItem('results' + maxCount)) ?? [];
+    const [incorrectClass, setIncorrectClass] = useState();
+    const questionCount = localStorage.getItem('questionCount') ?? 5;
+    const results = JSON.parse(localStorage.getItem('results' + questionCount)) ?? [];
 
     const modalWindowStyles = {
         content: {
@@ -43,22 +43,25 @@ const Main = () => {
         answer = '';
         setIncorrectClass(styles.incorrect);
         setTimeout(() => {
-            setIncorrectClass('');
+            setIncorrectClass();
         }, 250);
     }
 
     const correct = () => {
-        if (counter == maxCount) {
-            const now = new Date;
+        if (counter == questionCount) {
+            const now = new Date();
             const result = { date: now, result: (now - startTime) / 1000 };
             results.push(result);
-            localStorage.setItem('results' + maxCount, JSON.stringify(results));
+            localStorage.setItem('results' + questionCount, JSON.stringify(results));
             setIsOpen(true);
-            setResult(result.date, result.result, maxCount);
+            setResult(result.date, result.result, questionCount);
+            reset();
             return;
         }
 
-        startTime = startTime ?? new Date();
+        if (!startTime) {
+            setStartTime(new Date());
+        }
 
         answer = '';
         newTask();
@@ -81,9 +84,9 @@ const Main = () => {
         }
     }
 
-    const init = () => {
+    const reset = () => {
         answer = '';
-        startTime = null;
+        setStartTime();
         setTask('1 + 1');
         setCounter(0);
     }
@@ -94,7 +97,7 @@ const Main = () => {
         }
 
         if (e.keyCode == 35) {
-            init();
+            reset();
         }
     }
 
@@ -110,7 +113,6 @@ const Main = () => {
 
     useEffect(() => {
         answer = '';
-        startTime = null;
         document.addEventListener('keydown', handleKeydown);
 
         return () => {
@@ -125,7 +127,7 @@ const Main = () => {
             </header>
             <main id={styles.main}>
                 <table>
-                    <caption id={styles.task} className={incorrectClass} onClick={init}>
+                    <caption id={styles.task} className={incorrectClass} onClick={reset}>
                         {task}
                     </caption>
                     <tbody>
@@ -150,7 +152,7 @@ const Main = () => {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td id={styles.counter} colSpan='3'>{`${counter}/${maxCount}`}</td>
+                            <td id={styles.counter} colSpan='3'>{`${counter}/${questionCount}`}</td>
                         </tr>
                     </tfoot>
                 </table>
