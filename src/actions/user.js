@@ -45,25 +45,27 @@ export const auth = () => {
     }
 }
 
-export const setResult = async (date, result) => {
+export const setResult = async (date, result, maxCount) => {
     try {
         const response = await axios.post('https://api.arith.ru/set', {
             date,
-            result
+            result,
+            maxCount
         }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
     } catch (e) {
         console.log(e);
     }
 }
 
-export const getLeaders = () => {
+export const getLeaders = (maxCount) => {
     return async dispatch => {
         try {
             const response = await axios.get('https://api.arith.ru/leaders',
+                { maxCount },
                 { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
             );
             dispatch(setLeaders(response.data));
-            localStorage.setItem('leaderboard', JSON.stringify({ leaders: response.data, date: new Date }));
+            localStorage.setItem('leaderboard' + maxCount, JSON.stringify({ leaders: response.data, date: new Date }));
         } catch (e) {
             console.log(e);
         }

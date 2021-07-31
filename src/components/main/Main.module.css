@@ -30,3 +30,7 @@ table {
   font-size: 2em;
   padding-top: 15px;
 }
+
+.incorrect {
+  color: 'red';
+}

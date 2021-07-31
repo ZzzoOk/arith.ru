@@ -1,41 +1,50 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { setResult } from '../../actions/user';
+import Modal from 'react-modal';
 import styles from './Main.module.css';
 import Menu from '../menu/Menu'
-import Modal from 'react-modal';
-import { setResult } from '../../actions/user';
 
 const Main = () => {
-    let task;
     let answer;
-    let counter;
     let startTime;
+    const [task, setTask] = useState('1 + 1');
+    const [counter, setCounter] = useState(0);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [incorrectClass, setIncorrectClass] = useState('');
     const maxCount = localStorage.getItem('maxCount') ?? 5;
-    const [results, setResults] = useState(JSON.parse(localStorage.getItem('results' + maxCount)) ?? []);
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const results = JSON.parse(localStorage.getItem('results' + maxCount)) ?? [];
 
-    const history = useHistory();
+    const modalWindowStyles = {
+        content: {
+            top: '30%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)'
+        },
+        overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)'
+        }
+    };
 
     const getRandomInt = () => {
         return Math.floor(Math.random() * (10 - 1)) + 1;
     }
 
     const newTask = () => {
-        task.innerText = getRandomInt() + ' + ' + getRandomInt();
+        const a = getRandomInt();
+        const b = getRandomInt();
+        setTask(`${a} + ${b}`);
     }
 
     const incorrect = () => {
         answer = '';
-        task.style.color = 'red';
+        setIncorrectClass(styles.incorrect);
         setTimeout(() => {
-            task.style.color = 'black';
+            setIncorrectClass('');
         }, 250);
-    }
-
-    const incCounter = () => {
-        document.getElementById(styles.counter).innerText = `${++counter}/${maxCount}`;
     }
 
     const correct = () => {
@@ -45,19 +54,19 @@ const Main = () => {
             results.push(result);
             localStorage.setItem('results' + maxCount, JSON.stringify(results));
             setIsOpen(true);
-            setResult(result.date, result.result);
+            setResult(result.date, result.result, maxCount);
             return;
         }
 
         startTime = startTime ?? new Date();
 
         answer = '';
-        incCounter();
         newTask();
+        setCounter(counter + 1);
     }
 
     const getSum = () => {
-        let taskItems = task.innerText.split('+');
+        let taskItems = task.split('+');
         return +taskItems[0] + +taskItems[1] + '';
     }
 
@@ -74,10 +83,9 @@ const Main = () => {
 
     const init = () => {
         answer = '';
-        counter = 0;
         startTime = null;
-        task.innerText = '1 + 1';
-        document.getElementById(styles.counter).innerText = `0/${maxCount}`;
+        setTask('1 + 1');
+        setCounter(0);
     }
 
     const handleKeydown = (e) => {
@@ -90,30 +98,6 @@ const Main = () => {
         }
     }
 
-    useEffect(() => {
-        task = document.getElementById(styles.task);
-        document.addEventListener('keydown', handleKeydown);
-        init();
-
-        return () => {
-            document.removeEventListener('keydown', handleKeydown);
-        }
-    })
-
-    const customStyles = {
-        content: {
-            top: '30%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)'
-        },
-        overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)'
-        }
-    };
-
     const isBestResult = () => {
         if (results.length < 2) {
             return false;
@@ -124,6 +108,16 @@ const Main = () => {
         return results.every(r => r.result >= lastResult);
     }
 
+    useEffect(() => {
+        answer = '';
+        startTime = null;
+        document.addEventListener('keydown', handleKeydown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeydown);
+        }
+    })
+
     return (
         <>
             <header>
@@ -131,8 +125,8 @@ const Main = () => {
             </header>
             <main id={styles.main}>
                 <table>
-                    <caption id={styles.task} onClick={init}>
-                        1 + 1
+                    <caption id={styles.task} className={incorrectClass} onClick={init}>
+                        {task}
                     </caption>
                     <tbody>
                         <tr>
@@ -156,11 +150,11 @@ const Main = () => {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td id={styles.counter} colSpan='3'>0/50</td>
+                            <td id={styles.counter} colSpan='3'>{`${counter}/${maxCount}`}</td>
                         </tr>
                     </tfoot>
                 </table>
-                <Modal isOpen={modalIsOpen} style={customStyles} onRequestClose={() => setIsOpen(false)}>
+                <Modal isOpen={modalIsOpen} style={modalWindowStyles} onRequestClose={() => setIsOpen(false)}>
                     {results.length > 0 && <div>Your result: {results[results.length - 1].result} sec</div>}
                     {isBestResult() && <div>It's personal best!</div>}
                     {results.length > 1 && <div>Previous: {results[results.length - 2].result}</div>}

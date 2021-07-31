@@ -32,13 +32,19 @@ const Result = (props) => {
 }
 
 const Leaderboard = () => {
-    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) ?? [];
-    const maxCount = localStorage.getItem('maxCount') ?? 5;
+    const [maxCount, setMaxCount] = useState(JSON.parse(localStorage.getItem('maxCount') ?? 5));
+    const [leaderboard, setLeaderboard] = useState(JSON.parse(localStorage.getItem('leaderboard' + maxCount)) ?? []);
     const dispatch = useDispatch();
+
+    const handleClick = (count) => {
+        setMaxCount(count);
+        dispatch(getLeaders(count));
+        setLeaderboard();
+    }
 
     useEffect(() => {
         if (leaderboard.length < 1 || (new Date) - (new Date(leaderboard.date)) > 5 * 60 * 1000) {
-            dispatch(getLeaders());
+            dispatch(getLeaders(maxCount));
         }
     });
 
@@ -49,7 +55,10 @@ const Leaderboard = () => {
             </header>
             <main>
                 <table id={styles.leaderboard}>
-                    <caption><h2>Leaderboard</h2></caption>
+                    <caption>
+                        <h2>Leaderboard</h2>
+                        <h3>Sums: {maxCount}</h3>
+                    </caption>
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -61,6 +70,8 @@ const Leaderboard = () => {
                         <Result results={leaderboard.leaders} />
                     </tbody>
                 </table>
+                <span className='button' onClick={() => handleClick(maxCount - 1)}>prev</span>|
+                <span className='button' onClick={() => handleClick(maxCount + 1)}>next</span>
             </main>
             <footer>
             </footer>
