@@ -7,7 +7,7 @@ import Menu from '../menu/Menu'
 
 const Main = () => {
     let answer;
-    const [task, setTask] = useState('1 + 1');
+    const [question, setQuestion] = useState('1 + 1');
     const [counter, setCounter] = useState(0);
     const [startTime, setStartTime] = useState();
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -33,10 +33,10 @@ const Main = () => {
         return Math.floor(Math.random() * (10 - 1)) + 1;
     }
 
-    const newTask = () => {
+    const newQuestion = () => {
         const a = getRandomInt();
         const b = getRandomInt();
-        setTask(`${a} + ${b}`);
+        setQuestion(`${a} + ${b}`);
     }
 
     const incorrect = () => {
@@ -64,13 +64,13 @@ const Main = () => {
         }
 
         answer = '';
-        newTask();
+        newQuestion();
         setCounter(counter + 1);
     }
 
     const getSum = () => {
-        let taskItems = task.split('+');
-        return +taskItems[0] + +taskItems[1] + '';
+        let [a, b] = question.split('+');
+        return +a + +b + '';
     }
 
     const handleButtonClick = (e) => {
@@ -87,7 +87,7 @@ const Main = () => {
     const reset = () => {
         answer = '';
         setStartTime();
-        setTask('1 + 1');
+        setQuestion('1 + 1');
         setCounter(0);
     }
 
@@ -127,8 +127,8 @@ const Main = () => {
             </header>
             <main id={styles.main}>
                 <table>
-                    <caption id={styles.task} className={incorrectClass} onClick={reset}>
-                        {task}
+                    <caption id={styles.question} className={incorrectClass} onClick={reset}>
+                        {question}
                     </caption>
                     <tbody>
                         <tr>
