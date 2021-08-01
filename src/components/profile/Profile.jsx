@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { getResults } from '../../actions/user';
 import { logout } from '../../reducers/userReducer';
 import styles from './Profile.module.css';
-import Menu from '../menu/Menu'
 import Input from '../../utils/Input';
 import {
     ResponsiveContainer, LineChart, Line, XAxis, YAxis, ReferenceLine, ReferenceArea,
@@ -49,38 +48,31 @@ const Profile = () => {
     });
 
     return (
-        <>
-            <header>
-                <Menu />
-            </header>
-            <main id={styles.main}>
-                <h2>{username}</h2>
-                <label htmlFor='count'><h3>Questions:</h3></label>
-                <Input type='number' name='count' value={questionCount} setValue={setQuestionCount} onInput={handleInput} min='1' max='100' />
-                <ResponsiveContainer height={400}>
-                    <LineChart
-                        data={results}
-                        margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
-                    >
-                        <CartesianGrid vertical={false} />
-                        <XAxis dataKey="date" tickFormatter={formatDate} dy={15} />
-                        <YAxis domain={['auto', 'auto']} />
-                        <Tooltip
-                            itemStyle={{
-                                color: 'black',
-                                backgroundColor: 'white'
-                            }}
-                            labelFormatter={formatDate}
-                            contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-                        />
-                        <Line dataKey="result" />
-                    </LineChart>
-                </ResponsiveContainer>
-                <span className='button' onClick={() => { dispatch(logout()); history.push('/login'); }}>Log Out</span>
-            </main>
-            <footer>
-            </footer>
-        </>
+        <main id={styles.main}>
+            <h2>{username}</h2>
+            <label htmlFor='count'><h3>Questions:</h3></label>
+            <Input type='number' name='count' value={questionCount} setValue={setQuestionCount} onInput={handleInput} min='1' max='100' />
+            <ResponsiveContainer height={400}>
+                <LineChart
+                    data={results}
+                    margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
+                >
+                    <CartesianGrid vertical={false} />
+                    <XAxis dataKey="date" tickFormatter={formatDate} dy={15} />
+                    <YAxis domain={['auto', 'auto']} />
+                    <Tooltip
+                        itemStyle={{
+                            color: 'black',
+                            backgroundColor: 'white'
+                        }}
+                        labelFormatter={formatDate}
+                        contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+                    />
+                    <Line dataKey="result" />
+                </LineChart>
+            </ResponsiveContainer>
+            <span className='button' onClick={() => { dispatch(logout()); history.push('/login'); }}>Log Out</span>
+        </main>
     );
 }
 

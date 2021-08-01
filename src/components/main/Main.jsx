@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { setResult } from '../../actions/user';
 import Modal from 'react-modal';
 import styles from './Main.module.css';
-import Menu from '../menu/Menu'
 
 const Main = () => {
     let answer;
@@ -121,50 +120,43 @@ const Main = () => {
     })
 
     return (
-        <>
-            <header>
-                <Menu />
-            </header>
-            <main id={styles.main}>
-                <table>
-                    <caption id={styles.question} className={incorrectClass} onClick={reset}>
-                        {question}
-                    </caption>
-                    <tbody>
-                        <tr>
-                            <td><span className='button' onClick={handleButtonClick}>7</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>8</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>9</span></td>
-                        </tr>
-                        <tr>
-                            <td><span className='button' onClick={handleButtonClick}>4</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>5</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>6</span></td>
-                        </tr>
-                        <tr>
-                            <td><span className='button' onClick={handleButtonClick}>1</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>2</span></td>
-                            <td><span className='button' onClick={handleButtonClick}>3</span></td>
-                        </tr>
-                        <tr>
-                            <td colSpan='3'><span id={styles.btn0} className='button' onClick={handleButtonClick}>0</span></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td id={styles.counter} colSpan='3'>{`${counter}/${questionCount}`}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <Modal isOpen={modalIsOpen} style={modalWindowStyles} onRequestClose={() => setIsOpen(false)}>
-                    {results.length > 0 && <div>Your result: {results[results.length - 1].result} sec</div>}
-                    {isBestResult() && <div>It's personal best!</div>}
-                    {results.length > 1 && <div>Previous: {results[results.length - 2].result}</div>}
-                </Modal>
-            </main>
-            <footer>
-            </footer>
-        </>
+        <main id={styles.main}>
+            <table>
+                <caption id={styles.question} className={incorrectClass} onClick={reset}>
+                    {question}
+                </caption>
+                <tbody>
+                    <tr>
+                        <td><span className='button' onClick={handleButtonClick}>7</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>8</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>9</span></td>
+                    </tr>
+                    <tr>
+                        <td><span className='button' onClick={handleButtonClick}>4</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>5</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>6</span></td>
+                    </tr>
+                    <tr>
+                        <td><span className='button' onClick={handleButtonClick}>1</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>2</span></td>
+                        <td><span className='button' onClick={handleButtonClick}>3</span></td>
+                    </tr>
+                    <tr>
+                        <td colSpan='3'><span id={styles.btn0} className='button' onClick={handleButtonClick}>0</span></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id={styles.counter} colSpan='3'>{`${counter}/${questionCount}`}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <Modal isOpen={modalIsOpen} style={modalWindowStyles} onRequestClose={() => setIsOpen(false)}>
+                {results.length > 0 && <div>Your result: {results[results.length - 1].result} sec</div>}
+                {isBestResult() && <div>It's personal best!</div>}
+                {results.length > 1 && <div>Previous: {results[results.length - 2].result}</div>}
+            </Modal>
+        </main>
     );
 }
 

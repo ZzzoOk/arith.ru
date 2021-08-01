@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import styles from './Leaderboard.module.css';
-import Menu from '../menu/Menu'
 import { getLeaders } from '../../actions/user';
+import styles from './Leaderboard.module.css';
 
 const Leader = (props) => {
     const username = useSelector(state => state.user.username);
@@ -48,33 +47,26 @@ const Leaderboard = () => {
     });
 
     return (
-        <>
-            <header>
-                <Menu />
-            </header>
-            <main>
-                <table id={styles.leaderboard}>
-                    <caption>
-                        <h2>Leaderboard</h2>
-                        <h3>Questions: {questionCount}</h3>
-                        <span className='button' onClick={() => handleClick(+questionCount - 1)}>Prev</span>|
-                        <span className='button' onClick={() => handleClick(+questionCount + 1)}>Next</span>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Date</th>
-                            <th>Result (sec)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Leader leaders={leaderboard.leaders} />
-                    </tbody>
-                </table>
-            </main>
-            <footer>
-            </footer>
-        </>
+        <main>
+            <table id={styles.leaderboard}>
+                <caption>
+                    <h2>Leaderboard</h2>
+                    <h3>Questions: {questionCount}</h3>
+                    <span className='button' onClick={() => handleClick(+questionCount - 1)}>Prev</span>|
+                    <span className='button' onClick={() => handleClick(+questionCount + 1)}>Next</span>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Date</th>
+                        <th>Result (sec)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Leader leaders={leaderboard.leaders} />
+                </tbody>
+            </table>
+        </main>
     );
 }
 

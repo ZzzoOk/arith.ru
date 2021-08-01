@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Menu from './components/menu/Menu'
 import Main from './components/main/Main';
 import Leaderboard from './components/leaderboard/Leaderboard';
 import Profile from './components/profile/Profile';
-import LogIn from './components/login/LogIn';
 import SignUp from './components/signup/SignUp';
+import LogIn from './components/login/LogIn';
 import { auth } from './actions/user';
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
 
   return (
     <Router>
+      <header>
+        <Menu />
+      </header>
       <Route exact path='/' component={Main} />
       <Route path='/leaderboard' component={Leaderboard} />
       {isAuth ?
@@ -28,6 +32,8 @@ function App() {
           <Route path='/signup' component={SignUp} />
         </>
       }
+      <footer>
+      </footer>
     </Router>
   );
 }
