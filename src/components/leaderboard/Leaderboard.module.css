@@ -3,6 +3,10 @@
     border-collapse: collapse;
 }
 
+#leaderboard caption {
+    padding-bottom: 30px;
+}
+
 #leaderboard thead th {
     border: solid 1px;
     padding: 10px;

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setUser } from "../reducers/userReducer";
-import { setLeaders } from "../reducers/leaderboardReducer";
 
 export const signUp = async (username, email, password) => {
     try {
@@ -45,6 +44,19 @@ export const auth = () => {
     }
 }
 
+export const getResults = async (questionCount) => {
+    try {
+        const response = await axios.get('https://api.arith.ru/get', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            params: { questionCount }
+        }
+        );
+        localStorage.setItem('results' + questionCount, JSON.stringify(response.data));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export const setResult = async (date, result, questionCount) => {
     try {
         const response = await axios.post('https://api.arith.ru/set', {
@@ -57,18 +69,15 @@ export const setResult = async (date, result, questionCount) => {
     }
 }
 
-export const getLeaders = (questionCount) => {
-    return async dispatch => {
-        try {
-            const response = await axios.get('https://api.arith.ru/leaders', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                params: { questionCount }
-            }
-            );
-            dispatch(setLeaders(response.data));
-            localStorage.setItem('leaderboard' + questionCount, JSON.stringify({ leaders: response.data, date: new Date }));
-        } catch (e) {
-            console.log(e);
+export const getLeaders = async (questionCount) => {
+    try {
+        const response = await axios.get('https://api.arith.ru/leaders', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            params: { questionCount }
         }
+        );
+        localStorage.setItem('leaderboard' + questionCount, JSON.stringify({ leaders: response.data, date: new Date }));
+    } catch (e) {
+        console.log(e);
     }
 }

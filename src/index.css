@@ -17,7 +17,7 @@ input {
   background-color: #434343;
   color: white;
   cursor: pointer;
-  margin: 10px auto;
+  margin: auto;
   line-height: 40px;
   width: 100px;
 }
@@ -43,6 +43,7 @@ a {
   color: red;
 }
 
-.recharts-wrapper {
+.recharts-responsive-container {
   margin: auto;
+  margin-bottom: 30px;
 }
