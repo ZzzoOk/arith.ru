@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../actions/user';
@@ -12,15 +12,31 @@ const LogIn = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const handleKeyDown = (e) => {
+        if (e.keyCode == 13) {
+            handleOnClick();
+        }
+    }
+
+    const handleOnClick = () => {
+        dispatch(logIn(username, password));
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            history.push('/profile');
+        }
+    })
+
     return (
         <main>
             <h2>Log In</h2>
 
-            <Input value={username} setValue={setUsername} type='text' placeholder='Username or email' />
+            <Input value={username} setValue={setUsername} type='text' placeholder='Username or email' onKeyDown={handleKeyDown} />
 
-            <Input value={password} setValue={setPassword} type='password' placeholder='Password' />
+            <Input value={password} setValue={setPassword} type='password' placeholder='Password' onKeyDown={handleKeyDown} />
 
-            <span className='button' onClick={() => { dispatch(logIn(username, password)); history.push('/profile'); }}>Log In</span>
+            <span className='button' onClick={handleOnClick}>Log In</span>
 
             <div className='links'><NavLink to='/resetpassword'>Reset password</NavLink></div>
             <div className='links'><NavLink to='/signup'>Sign Up</NavLink></div>

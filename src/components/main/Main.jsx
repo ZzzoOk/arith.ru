@@ -11,7 +11,7 @@ const Main = () => {
     const [startTime, setStartTime] = useState();
     const [modalIsOpen, setIsOpen] = useState(false);
     const [incorrectClass, setIncorrectClass] = useState();
-    const questionCount = localStorage.getItem('questionCount') ?? 5;
+    const questionCount = localStorage.getItem('questionCount') ?? 50;
     const results = JSON.parse(localStorage.getItem('results' + questionCount)) ?? [];
 
     const modalWindowStyles = {

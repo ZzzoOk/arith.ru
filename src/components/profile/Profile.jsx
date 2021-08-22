@@ -14,7 +14,7 @@ import {
 
 const Profile = () => {
     const username = useSelector(state => state.user.username);
-    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 5);
+    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 50);
     const results = JSON.parse(localStorage.getItem('results' + questionCount));
     const dispatch = useDispatch();
     const history = useHistory();
@@ -55,7 +55,7 @@ const Profile = () => {
             <ResponsiveContainer height={400}>
                 <LineChart
                     data={results}
-                    margin={{ top: 40, right: 40, bottom: 20, left: 20 }}
+                    margin={{ top: 20, right: 20, bottom: 20, left: 0 }}
                 >
                     <CartesianGrid vertical={false} />
                     <XAxis dataKey="date" tickFormatter={formatDate} dy={15} />

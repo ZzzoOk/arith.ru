@@ -2,82 +2,77 @@ import axios from "axios";
 import { setUser } from "../reducers/userReducer";
 
 export const signUp = async (username, email, password) => {
-    try {
-        const response = await axios.post('https://api.arith.ru/signup', {
-            username,
-            email,
-            password
-        });
-        alert(response.data.message);
-    } catch (e) {
-        console.log(e);
-    }
+    await axios.post('https://arith-ru.herokuapp.com/signup', {
+        username,
+        email,
+        password
+    }).then(res => {
+        alert(res.data.message);
+    }).catch(err => {
+        alert(err.response.data.message);
+    });
 }
 
 export const logIn = (username, password) => {
     return async dispatch => {
-        try {
-            const response = await axios.post('https://api.arith.ru/login', {
-                username,
-                password
-            });
-            dispatch(setUser(response.data.username));
-            localStorage.setItem('token', response.data.token);
-        } catch (e) {
-            console.log(e);
-        }
+        await axios.post('https://arith-ru.herokuapp.com/login', {
+            username,
+            password
+        }).then(res => {
+            dispatch(setUser(res.data.username));
+            localStorage.setItem('token', res.data.token);
+            window.location.reload();
+        }).catch(() => {
+            alert('Failed to log in');
+        });
     }
 }
 
 export const auth = () => {
     return async dispatch => {
-        try {
-            const response = await axios.get('https://api.arith.ru/auth',
-                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-            );
-            dispatch(setUser(response.data.username));
-            localStorage.setItem('token', response.data.token);
-        } catch (e) {
-            console.log(e);
+        await axios.get('https://arith-ru.herokuapp.com/auth',
+            { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+        ).then(res => {
+            dispatch(setUser(res.data.username));
+            localStorage.setItem('token', res.data.token);
+        }).catch(err => {
+            //console.log(err.response.data);
             localStorage.removeItem('token');
-        }
+        });
     }
 }
 
 export const getResults = async (questionCount) => {
-    try {
-        const response = await axios.get('https://api.arith.ru/get', {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            params: { questionCount }
-        }
-        );
-        localStorage.setItem('results' + questionCount, JSON.stringify(response.data));
-    } catch (e) {
-        console.log(e);
-    }
+    await axios.get('https://arith-ru.herokuapp.com/get', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        params: { questionCount }
+    }).then(res => {
+        localStorage.setItem('results' + questionCount, JSON.stringify(res.data));
+    }).catch(err => {
+        //console.log(err.response.data);
+    });
 }
 
 export const setResult = async (date, result, questionCount) => {
-    try {
-        const response = await axios.post('https://api.arith.ru/set', {
-            date,
-            result,
-            questionCount
-        }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-    } catch (e) {
-        console.log(e);
-    }
+    await axios.post('https://arith-ru.herokuapp.com/set', {
+        date,
+        result,
+        questionCount
+    }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    }).catch(err => {
+        //console.log(err.response.data);
+    });
 }
 
 export const getLeaders = async (questionCount) => {
-    try {
-        const response = await axios.get('https://api.arith.ru/leaders', {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            params: { questionCount }
-        }
-        );
-        localStorage.setItem('leaderboard' + questionCount, JSON.stringify({ leaders: response.data, date: new Date }));
-    } catch (e) {
-        console.log(e);
+    await axios.get('https://arith-ru.herokuapp.com/leaders', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        params: { questionCount }
     }
+    ).then(res => {
+        localStorage.setItem('leaderboard' + questionCount, JSON.stringify({ leaders: res.data, date: new Date() }));
+    }).catch(err => {
+        //console.log(err.response.data);
+    });
 }

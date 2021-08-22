@@ -31,7 +31,7 @@ const Leader = (props) => {
 }
 
 const Leaderboard = () => {
-    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 5);
+    const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 50);
     const leaderboard = JSON.parse(localStorage.getItem('leaderboard' + questionCount)) ?? [];
 
     const handleClick = (count) => {
@@ -41,7 +41,7 @@ const Leaderboard = () => {
     }
 
     useEffect(() => {
-        if (leaderboard.length < 1 || (new Date) - (new Date(leaderboard.date)) > 5 * 60 * 1000) {
+        if (leaderboard.length < 1 || (new Date()) - (new Date(leaderboard.date)) > 5 * 60 * 1000) {
             getLeaders(questionCount);
         }
     });
