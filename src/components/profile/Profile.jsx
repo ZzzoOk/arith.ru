@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getResults } from '../../actions/user';
 import { logout } from '../../reducers/userReducer';
 import styles from './Profile.module.css';
@@ -17,7 +17,7 @@ const Profile = () => {
     const [questionCount, setQuestionCount] = useState(localStorage.getItem('questionCount') ?? 50);
     const results = JSON.parse(localStorage.getItem('results' + questionCount));
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const formatDate = (tickItem) => {
         if (tickItem === 'auto') {
@@ -71,7 +71,7 @@ const Profile = () => {
                     <Line dataKey="result" />
                 </LineChart>
             </ResponsiveContainer>
-            <span className='button' onClick={() => { dispatch(logout()); history.push('/login'); }}>Log Out</span>
+            <span className='button' onClick={() => { dispatch(logout()); navigate('/login'); }}>Log Out</span>
         </main>
     );
 }

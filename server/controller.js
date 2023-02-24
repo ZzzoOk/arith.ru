@@ -35,7 +35,7 @@ class controller {
 
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Registration error: ' + e });
+			return res.status(400).json({ message: 'Registration error: ' + e });
 		}
 	}
 
@@ -51,12 +51,12 @@ class controller {
 				]
 			});
 			if (!user) {
-				res.status(404).json({ message: 'Account not found' });
+				return res.status(404).json({ message: 'Account not found' });
 			}
 
 			const isPwdValid = bcrypt.compareSync(password, user.password);;
 			if (!isPwdValid) {
-				res.status(400).json({ message: 'Wrong password' });
+				return res.status(400).json({ message: 'Wrong password' });
 			}
 
 			const token = jwt.sign({ username: user.username }, secrets.jwtSecret, { expiresIn: '3d' });
@@ -68,7 +68,7 @@ class controller {
 
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Login error: ' + e });
+			return res.status(400).json({ message: 'Login error: ' + e });
 		}
 	}
 
@@ -83,7 +83,7 @@ class controller {
 			});
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Auth error: ' + e });
+			return res.status(400).json({ message: 'Auth error: ' + e });
 		}
 	}
 
@@ -95,7 +95,7 @@ class controller {
 			return res.json(results);
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Auth error: ' + e });
+			return res.status(400).json({ message: 'Auth error: ' + e });
 		}
 	}
 
@@ -112,7 +112,7 @@ class controller {
 
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Result saving error: ' + e });
+			return res.status(400).json({ message: 'Result saving error: ' + e });
 		}
 	}
 
@@ -146,7 +146,7 @@ class controller {
 			return res.json(leaders);
 		} catch (e) {
 			console.log(e);
-			res.status(400).json({ message: 'Result saving error: ' + e });
+			return res.status(400).json({ message: 'Result saving error: ' + e });
 		}
 	}
 }

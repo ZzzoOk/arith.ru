@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Menu from './components/menu/Menu'
 import Main from './components/main/Main';
@@ -22,16 +22,18 @@ function App() {
       <header>
         <Menu />
       </header>
-      <Route exact path='/' component={Main} />
-      <Route path='/leaderboard' component={Leaderboard} />
-      {isAuth ?
-        <Route path='/profile' component={Profile} />
-        :
-        <>
-          <Route path='/login' component={LogIn} />
-          <Route path='/signup' component={SignUp} />
-        </>
-      }
+      <Routes>
+        <Route exact path='/' element={<Main/>} />
+        <Route path='/leaderboard' element={<Leaderboard/>} />
+        {isAuth ?
+          <Route path='/profile' element={<Profile/>} />
+          :
+          <>
+            <Route path='/login' element={<LogIn/>} />
+            <Route path='/signup' element={<SignUp/>} />
+          </>
+        }
+      </Routes>
       <footer>
       </footer>
     </Router>

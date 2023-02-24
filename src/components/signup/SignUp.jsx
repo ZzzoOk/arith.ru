@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { signUp } from '../../actions/user';
 import Input from '../../utils/Input';
 
@@ -9,7 +9,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     return (
         <main>
@@ -25,7 +25,7 @@ const SignUp = () => {
             <Input value={password} setValue={setPassword} type='password' placeholder='Password' />
             <span className='errorAlert hidden'>Use from 6 to 15 characters</span>
 
-            <div><span className='button' onClick={() => { signUp(username, email, password); history.push('/login'); }}>Sign Up</span></div>
+            <div><span className='button' onClick={() => { signUp(username, email, password); navigate('/login'); }}>Sign Up</span></div>
 
             <div className='links'><NavLink to='/login'>Log In</NavLink></div>
         </main>

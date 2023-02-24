@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../actions/user';
 import Input from '../../utils/Input';
@@ -10,7 +10,7 @@ const LogIn = () => {
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleKeyDown = (e) => {
         if (e.keyCode == 13) {
@@ -24,7 +24,7 @@ const LogIn = () => {
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            history.push('/profile');
+            navigate('/profile');
         }
     })
 
