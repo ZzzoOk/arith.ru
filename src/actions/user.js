@@ -2,7 +2,7 @@ import axios from "axios";
 import { setUser } from "../reducers/userReducer";
 
 export const signUp = async (username, email, password) => {
-    await axios.post('https://arith-ru.herokuapp.com/signup', {
+    await axios.post('https://arith-ru.onrender.com/signup', {
         username,
         email,
         password
@@ -15,7 +15,7 @@ export const signUp = async (username, email, password) => {
 
 export const logIn = (username, password) => {
     return async dispatch => {
-        await axios.post('https://arith-ru.herokuapp.com/login', {
+        await axios.post('https://arith-ru.onrender.com/login', {
             username,
             password
         }).then(res => {
@@ -30,7 +30,7 @@ export const logIn = (username, password) => {
 
 export const auth = () => {
     return async dispatch => {
-        await axios.get('https://arith-ru.herokuapp.com/auth',
+        await axios.get('https://arith-ru.onrender.com/auth',
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         ).then(res => {
             dispatch(setUser(res.data.username));
@@ -43,7 +43,7 @@ export const auth = () => {
 }
 
 export const getResults = async (questionCount) => {
-    await axios.get('https://arith-ru.herokuapp.com/get', {
+    await axios.get('https://arith-ru.onrender.com/get', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         params: { questionCount }
     }).then(res => {
@@ -54,7 +54,7 @@ export const getResults = async (questionCount) => {
 }
 
 export const setResult = async (date, result, questionCount) => {
-    await axios.post('https://arith-ru.herokuapp.com/set', {
+    await axios.post('https://arith-ru.onrender.com/set', {
         date,
         result,
         questionCount
@@ -66,7 +66,7 @@ export const setResult = async (date, result, questionCount) => {
 }
 
 export const getLeaders = async (questionCount) => {
-    await axios.get('https://arith-ru.herokuapp.com/leaders', {
+    await axios.get('https://arith-ru.onrender.com/leaders', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         params: { questionCount }
     }

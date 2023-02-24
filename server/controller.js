@@ -2,6 +2,7 @@ const User = require('./user');
 const Result = require('./result');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const secrets = require('/etc/secrets/secrets');
 const { validationResult } = require('express-validator');
 
 class controller {
@@ -58,7 +59,7 @@ class controller {
 				res.status(400).json({ message: 'Wrong password' });
 			}
 
-			const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '3d' });
+			const token = jwt.sign({ username: user.username }, secrets.jwtSecret, { expiresIn: '3d' });
 
 			return res.json({
 				token,
@@ -74,7 +75,7 @@ class controller {
 	async auth(req, res) {
 		try {
 			const user = await User.findOne({ username: req.username });
-			const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '3d' });
+			const token = jwt.sign({ username: user.username }, secrets.jwtSecret, { expiresIn: '3d' });
 			return res.json({
 				token,
 				username: user.username,

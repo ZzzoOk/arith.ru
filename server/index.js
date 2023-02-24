@@ -4,6 +4,7 @@ const router = require('./router');
 const http = require('http');
 //const https = require('https');
 const corsMiddleware = require('./middleware/cors.middleware');
+const secrets = require('/etc/secrets/secrets');
 
 const PORT = process.env.PORT || 3499;
 
@@ -25,7 +26,7 @@ app.use('/', router);
 
 const start = async () => {
 	try {
-		await mongoose.connect('mongodb');
+		await mongoose.connect(secrets.uri);
 		http.createServer(app).listen(PORT);
 		//https.createServer(options, app).listen(443);
 	} catch (e) {
