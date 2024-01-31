@@ -31,7 +31,7 @@ class controller {
 			const user = new User({ username, email, password: hash });
 			await user.save();
 
-			return res.json({ message: 'User registered succsessfully' });
+			return res.json({ message: 'User registered successfully' });
 
 		} catch (e) {
 			console.log(e);
@@ -54,7 +54,7 @@ class controller {
 				return res.status(404).json({ message: 'Account not found' });
 			}
 
-			const isPwdValid = bcrypt.compareSync(password, user.password);;
+			const isPwdValid = bcrypt.compareSync(password, user.password);
 			if (!isPwdValid) {
 				return res.status(400).json({ message: 'Wrong password' });
 			}
