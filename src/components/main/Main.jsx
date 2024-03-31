@@ -1,6 +1,5 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { setResult } from '../../actions/user';
+import React, {useEffect, useState} from 'react';
+import {setResult} from '../../actions/user';
 import Modal from 'react-modal';
 import styles from './Main.module.css';
 

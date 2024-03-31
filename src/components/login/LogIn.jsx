@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../actions/user';
+import React, {useEffect, useState} from 'react';
+import {NavLink, useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {logIn} from '../../actions/user';
 import Input from '../../utils/Input';
 
 const LogIn = () => {

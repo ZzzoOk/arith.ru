@@ -1,7 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { signUp } from '../../actions/user';
+import React, {useState} from 'react';
+import {NavLink, useNavigate} from 'react-router-dom';
+import {signUp} from '../../actions/user';
 import Input from '../../utils/Input';
 
 const SignUp = () => {

@@ -25,13 +25,13 @@ app.use(express.json());
 app.use('/', router);
 
 const start = async () => {
-	try {
-		await mongoose.connect(secrets.uri);
-		http.createServer(app).listen(PORT);
-		//https.createServer(options, app).listen(443);
-	} catch (e) {
-		console.log(e);
-	}
+    try {
+        await mongoose.connect(secrets.uri);
+        http.createServer(app).listen(PORT);
+        //https.createServer(options, app).listen(443);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 start();

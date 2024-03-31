@@ -1,7 +1,6 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { getLeaders } from '../../actions/user';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {getLeaders} from '../../actions/user';
 import styles from './Leaderboard.module.css';
 
 const Leader = (props) => {

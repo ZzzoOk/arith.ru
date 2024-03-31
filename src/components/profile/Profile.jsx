@@ -1,16 +1,11 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getResults } from '../../actions/user';
-import { logout } from '../../reducers/userReducer';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {getResults} from '../../actions/user';
+import {logout} from '../../reducers/userReducer';
 import styles from './Profile.module.css';
 import Input from '../../utils/Input';
-import {
-    ResponsiveContainer, LineChart, Line, XAxis, YAxis, ReferenceLine, ReferenceArea,
-    ReferenceDot, Tooltip, CartesianGrid, Legend, Brush, ErrorBar, AreaChart, Area,
-    Label, LabelList
-} from 'recharts';
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 
 const Profile = () => {
     const username = useSelector(state => state.user.username);

@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {NavLink} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import styles from './Menu.module.css';
 
 const Menu = () => {

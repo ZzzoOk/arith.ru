@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setUser } from "../reducers/userReducer";
+import {setUser} from "../reducers/userReducer";
 
 export const signUp = async (username, email, password) => {
     await axios.post('https://arith-ru.onrender.com/signup', {
