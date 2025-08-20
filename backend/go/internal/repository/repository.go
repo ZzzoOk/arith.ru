@@ -2,19 +2,16 @@ package repository
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/mongo"
-	"main/internal/domain"
-)
 
-type Auth interface {
-	GenerateToken(username, password string) (string, error)
-	ParseToken(token string) (int, error)
-}
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+)
 
 type User interface {
 	Create(ctx context.Context, user domain.User) error
-	Get(ctx context.Context, usernameOrEmail string) (*domain.User, error)
+	GetByEmail(ctx context.Context, email string) (*domain.User, error)
 	GetByPasswordHash(ctx context.Context, usernameOrEmail, passwordHash string) (*domain.User, error)
+	UpdatePassword(ctx context.Context, user *domain.User) error
 }
 
 type Result interface {
@@ -24,7 +21,6 @@ type Result interface {
 }
 
 type Repository struct {
-	Auth
 	User
 	Result
 }

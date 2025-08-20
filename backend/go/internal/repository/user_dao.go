@@ -3,9 +3,10 @@ package repository
 import (
 	"context"
 	"errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"main/internal/domain"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type UserDAO struct {
@@ -19,30 +20,46 @@ func NewUserDAO(client *mongo.Client) *UserDAO {
 }
 
 func (dao *UserDAO) Create(ctx context.Context, user domain.User) error {
-	filter := bson.M{"username": user.Name, "email": user.Email}
+	filter := bson.M{"username": user.Username, "email": user.Email}
 	if err := dao.c.FindOne(ctx, filter); err == nil {
 		return errors.New("user already exists")
 	}
+
 	if _, err := dao.c.InsertOne(ctx, user); err != nil {
 		return err
 	}
+
 	return nil
 }
 
-func (dao *UserDAO) Get(ctx context.Context, usernameOrEmail string) (*domain.User, error) {
-	filter := bson.M{"username": usernameOrEmail, "email": usernameOrEmail}
+func (dao *UserDAO) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
 	var user domain.User
+
+	filter := bson.M{"email": email}
 	if err := dao.c.FindOne(ctx, filter).Decode(&user); err != nil {
 		return nil, err
 	}
+
 	return &user, nil
 }
 
 func (dao *UserDAO) GetByPasswordHash(ctx context.Context, usernameOrEmail, passwordHash string) (*domain.User, error) {
-	filter := bson.M{"username": usernameOrEmail, "email": usernameOrEmail, "passwordHash": passwordHash}
 	var user domain.User
+
+	filter := bson.M{"username": usernameOrEmail, "email": usernameOrEmail, "passwordHash": passwordHash}
 	if err := dao.c.FindOne(ctx, filter).Decode(&user); err != nil {
 		return nil, err
 	}
+
 	return &user, nil
+}
+
+func (dao *UserDAO) UpdatePassword(ctx context.Context, user *domain.User) error {
+	filter := bson.M{"username": user.Id}
+	update := bson.M{"passwordHash": user.Password}
+	if err := dao.c.FindOneAndUpdate(ctx, filter, update); err != nil {
+		return err.Err()
+	}
+
+	return nil
 }

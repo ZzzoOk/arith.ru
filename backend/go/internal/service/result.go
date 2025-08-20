@@ -2,8 +2,9 @@ package service
 
 import (
 	"context"
-	"main/internal/domain"
-	"main/internal/repository"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/repository"
 )
 
 type ResultService struct {

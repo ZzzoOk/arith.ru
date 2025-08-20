@@ -2,8 +2,9 @@ package service
 
 import (
 	"context"
-	"main/internal/domain"
-	"main/internal/repository"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/repository"
 )
 
 type Auth interface {
@@ -13,8 +14,9 @@ type Auth interface {
 
 type User interface {
 	Create(ctx context.Context, user domain.User) error
-	Get(ctx context.Context, usernameOrEmail string) (*domain.User, error)
+	GetByEmail(ctx context.Context, email string) (*domain.User, error)
 	GetByPasswordHash(ctx context.Context, usernameOrEmail, passwordHash string) (*domain.User, error)
+	UpdatePassword(ctx context.Context, user *domain.User) error
 }
 
 type Result interface {

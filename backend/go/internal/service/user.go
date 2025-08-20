@@ -2,8 +2,9 @@ package service
 
 import (
 	"context"
-	"main/internal/domain"
-	"main/internal/repository"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/repository"
 )
 
 type UserService struct {
@@ -15,14 +16,19 @@ func NewUserService(r repository.User) *UserService {
 }
 
 func (s *UserService) Create(ctx context.Context, user domain.User) error {
-	user.PasswordHash = generatePasswordHash(user.PasswordHash)
+	user.Password = generatePasswordHash(user.Password)
 	return s.r.Create(ctx, user)
 }
 
-func (s *UserService) Get(ctx context.Context, usernameOrEmail string) (*domain.User, error) {
-	return s.r.Get(ctx, usernameOrEmail)
+func (s *UserService) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
+	return s.r.GetByEmail(ctx, email)
 }
 
 func (s *UserService) GetByPasswordHash(ctx context.Context, usernameOrEmail, passwordHash string) (*domain.User, error) {
 	return s.r.GetByPasswordHash(ctx, usernameOrEmail, passwordHash)
+}
+
+func (s *UserService) UpdatePassword(ctx context.Context, user *domain.User) error {
+	user.Password = generatePasswordHash(user.Password)
+	return s.r.UpdatePassword(ctx, user)
 }

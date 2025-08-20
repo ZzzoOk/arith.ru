@@ -2,9 +2,10 @@ package repository
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"main/internal/domain"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/domain"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type ResultDAO struct {
@@ -25,14 +26,14 @@ func (dao *ResultDAO) Create(ctx context.Context, result domain.Result) error {
 func (dao *ResultDAO) GetAll(ctx context.Context, username string, questionCount int) ([]domain.Result, error) {
 	filter := bson.M{"username": username, "questionCount": questionCount}
 
-	cursor, err := dao.c.Find(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
-
 	var results []domain.Result
-	if err = cursor.All(context.TODO(), &results); err != nil {
+
+	if cursor, err := dao.c.Find(ctx, filter); err != nil {
 		return nil, err
+	} else {
+		if err = cursor.All(context.TODO(), &results); err != nil {
+			return nil, err
+		}
 	}
 
 	return results, nil
@@ -50,14 +51,14 @@ func (dao *ResultDAO) GetLeaders(ctx context.Context, questionCount int) ([]doma
 					"username": "$username"}}}},
 		{"$replaceRoot": bson.M{"newRoot": "$result"}}}
 
-	cursor, err := dao.c.Aggregate(ctx, pipeline)
-	if err != nil {
-		return nil, err
-	}
-
 	var results []domain.Result
-	if err = cursor.All(context.TODO(), &results); err != nil {
+
+	if cursor, err := dao.c.Aggregate(ctx, pipeline); err != nil {
 		return nil, err
+	} else {
+		if err = cursor.All(context.TODO(), &results); err != nil {
+			return nil, err
+		}
 	}
 
 	return results, nil

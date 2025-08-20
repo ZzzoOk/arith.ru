@@ -5,10 +5,11 @@ import (
 	"crypto/sha1"
 	"errors"
 	"fmt"
-	"github.com/golang-jwt/jwt/v5"
-	"main/internal/repository"
 	"os"
 	"time"
+
+	"github.com/ZzzoOk/arith.ru/backend/go/internal/repository"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type tokenClaims struct {
@@ -25,15 +26,14 @@ func NewAuthService(r repository.User) *AuthService {
 }
 
 func (s *AuthService) GenerateToken(ctx context.Context, username, password string) (string, error) {
-	passwordHash := generatePasswordHash(password)
-	user, err := s.r.GetByPasswordHash(ctx, username, passwordHash)
+	user, err := s.r.GetByPasswordHash(ctx, username, generatePasswordHash(password))
 	if err != nil {
 		return "", err
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.RegisteredClaims{
-			ExpiresAt: &jwt.NumericDate{Time: time.Now().Add(24 * time.Hour)},
+			ExpiresAt: &jwt.NumericDate{Time: time.Now().Add(72 * time.Hour)},
 			IssuedAt:  &jwt.NumericDate{Time: time.Now()},
 		},
 		user.Id,
