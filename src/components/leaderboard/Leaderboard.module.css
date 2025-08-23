@@ -1,22 +1,22 @@
 #leaderboard {
-    border: solid 1px;
-    border-collapse: collapse;
+  border: solid 1px;
+  border-collapse: collapse;
 }
 
 #leaderboard caption {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 #leaderboard thead th {
-    border: solid 1px;
-    padding: 10px;
+  border: solid 1px;
+  padding: 10px;
 }
 
 #leaderboard tbody td {
-    border: solid 1px;
-    padding: 10px;
+  border: solid 1px;
+  padding: 10px;
 }
 
 .currentUser {
-    background-color: gold;
+  background-color: gold;
 }
